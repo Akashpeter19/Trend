@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: trend-app
-          image: app19/trend-app:v1
+          image: app19/trend-app:v2
           ports:
             - containerPort: 3000
           livenessProbe:
