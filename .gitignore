@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Secrets / local vars
+*.pem
+.env
+terraform.tfvars
