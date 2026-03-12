@@ -16,3 +16,4 @@ override.tf.json
 *.pem
 .env
 terraform.tfvars
+.DS_Store
