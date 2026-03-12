@@ -30,12 +30,21 @@ pipeline {
 
         stage('Deploy to EKS') {
             steps {
-                sh 'aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER'
-                sh 'kubectl apply -f k8s/namespace.yaml || true'
-                sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yaml'
-                sh 'kubectl rollout restart deployment trend-app -n trend'
-                sh 'kubectl get all -n trend'
+                withCredentials([usernamePassword(credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh '''
+                        export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+                        export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+                        export AWS_DEFAULT_REGION=$AWS_REGION
+
+                        aws sts get-caller-identity
+                        aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER
+                        kubectl apply -f k8s/namespace.yaml || true
+                        kubectl apply -f k8s/deployment.yaml
+                        kubectl apply -f k8s/service.yaml
+                        kubectl rollout restart deployment trend-app -n trend
+                        kubectl get all -n trend
+                    '''
+                }
             }
         }
     }
