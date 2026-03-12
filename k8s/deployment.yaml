@@ -4,7 +4,7 @@ metadata:
   name: trend-app
   namespace: trend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: trend-app
