@@ -55,7 +55,7 @@ pipeline {
             steps {
                 sh '''
                     set -eux
-                    docker build -t ${IMAGE_REPO}:${IMAGE_TAG} -t ${IMAGE_REPO}:latest .
+                    docker build -f docker/Dockerfile -t ${IMAGE_REPO}:${IMAGE_TAG} -t ${IMAGE_REPO}:latest .
                 '''
             }
         }
@@ -85,14 +85,10 @@ pipeline {
             steps {
                 sh '''
                     set -eux
-
                     kubectl apply -f k8s/namespace.yaml
                     kubectl apply -f k8s/deployment.yaml
                     kubectl apply -f k8s/service.yaml
-
-                    kubectl -n trend set image deployment/trend-app trend-app=${IMAGE_REPO}:${IMAGE_TAG} --record || \
-                    kubectl -n trend apply -f k8s/deployment.yaml
-
+                    kubectl -n trend set image deployment/trend-app trend-app=${IMAGE_REPO}:${IMAGE_TAG} --record || true
                     kubectl -n trend rollout status deployment/trend-app --timeout=180s
                     kubectl -n trend get pods -o wide
                     kubectl -n trend get svc
