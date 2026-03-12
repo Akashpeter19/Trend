@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "app19/trend-app:v3"
         AWS_REGION = "ap-south-1"
         EKS_CLUSTER = "trend-devops-eks"
     }
@@ -11,20 +10,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Akashpeter19/Trend.git'
-            }
-        }
-
-        stage('Docker Login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
-                }
-            }
-        }
-
-        stage('Build and Push Docker Image') {
-            steps {
-                sh 'docker buildx build --platform linux/amd64 -t $DOCKER_IMAGE -f docker/Dockerfile . --push'
             }
         }
 
@@ -41,8 +26,7 @@ pipeline {
                         kubectl apply -f k8s/namespace.yaml || true
                         kubectl apply -f k8s/deployment.yaml
                         kubectl apply -f k8s/service.yaml
-                        kubectl rollout restart deployment trend-app -n trend
-                        kubectl get all -n trend
+                        kubectl rollout status deployment trend-app -n trend --timeout=180s
                     '''
                 }
             }
