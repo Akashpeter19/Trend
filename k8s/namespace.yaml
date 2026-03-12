@@ -1,32 +1,4 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Namespace
 metadata:
-  name: trend-app
-  namespace: trend
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: trend-app
-  template:
-    metadata:
-      labels:
-        app: trend-app
-    spec:
-      containers:
-        - name: trend-app
-          image: akashpeter19/trend-app:v1
-          ports:
-            - containerPort: 3000
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 3000
-            initialDelaySeconds: 15
-            periodSeconds: 20
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 3000
-            initialDelaySeconds: 5
-            periodSeconds: 10
+  name: trend
