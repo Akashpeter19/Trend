@@ -139,7 +139,7 @@ Open-source monitoring was implemented and validated.
 - Grafana dashboard accessed successfully
 - Cluster/application monitoring output verified
 
-## 9. Evidence / Screenshots
+## 9. Screenshots
 The repository contains screenshots showing:
 - repository cloning
 - Docker build and local run
@@ -153,10 +153,6 @@ The repository contains screenshots showing:
 - monitoring stack and Grafana dashboard
 - live application on the AWS LoadBalancer
 
-## 10. Submission Details
-- GitHub Link: `https://github.com/Akashpeter19/Trend`
-- LoadBalancer URL: `[Add final DNS / URL here]`
-- LoadBalancer ARN: `[Add ARN from AWS console / CLI here]`
 
 ## Conclusion
 This project successfully deployed the provided Trend application into a production-ready AWS Kubernetes environment. The final solution includes Dockerization, Terraform-based infrastructure provisioning, Jenkins CI/CD automation, deployment to Amazon EKS, GitHub webhook integration, Docker Hub image hosting, and open-source monitoring using Prometheus and Grafana.
